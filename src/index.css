@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon{
+  color: #8700af !important
+}
+.ant-menu-inline .ant-menu-item::after{
+  border-right: 3px solid #8700af  !important;
+}

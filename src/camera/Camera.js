@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Webcam from "react-webcam";
 import Axios from "axios";
 import image from "./WIN_20201201_16_55_55_Pro.jpg";
-import { Button, Col, Image, Row } from "antd";
+import { Button, Col, Image, Row, Spin } from "antd";
 
 
 const videoConstraints = {
@@ -22,10 +22,11 @@ function dataURLtoFile(dataurl, filename) {
   const WebcamCapture = () => {
     const webcamRef = React.useRef(null);
     const [image,setImage]= useState([])
-    const [loading,setLoading]= useState(true)
+    const [loading,setLoading]= useState(false)
     
     const capture = React.useCallback(
       () => {
+            setLoading(true)
             const imageSrc = webcamRef.current.getScreenshot();//base64
             console.log(imageSrc)
             
@@ -41,6 +42,7 @@ function dataURLtoFile(dataurl, filename) {
             }).then(resp=>{//200
                 
                 setImage([resp.data,...image])
+                setLoading(false)
                 //setImage([...image,resp.data])
             }).catch(err=>{
                 console.log(err)
@@ -69,7 +71,9 @@ function dataURLtoFile(dataurl, filename) {
                     videoConstraints={videoConstraints}
                 /><br/>
                 <center>
-                    <Button onClick={capture}>Capture photo</Button>
+                    {
+                        loading?<Button disabled><Spin/></Button>:<Button onClick={capture}>Capture photo</Button>
+                    }
                 </center>
            </Col>
            <Col offset={1} span={13}>

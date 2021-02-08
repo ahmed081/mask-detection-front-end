@@ -16,7 +16,7 @@ function App() {
     <div>
         
         <Layout>
-    <Header style={{backgroundColor:"#0fe8d4"}} className="header">
+    <Header style={{backgroundColor:"#8700af"}} className="header">
             <center>
               <h1 style={{color:"white"}}>SAM Project</h1>
             </center>
@@ -29,12 +29,12 @@ function App() {
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
         >
-          <Menu.Item key="1"><Link to ="/covid-states">Covid state</Link></Menu.Item>
+          <Menu.Item key="1"><Link to ="/covid-states" style={{color:"#8700af"}}>Covid state</Link></Menu.Item>
          
           
-          <SubMenu key="sub3" icon={<NotificationOutlined />} title="mask detection">
-            <Menu.Item key="9"><Link to ="/upload">upload</Link></Menu.Item>
-            <Menu.Item key="10"><Link to="/camera">Camera</Link></Menu.Item>
+          <SubMenu key="sub3" icon={<NotificationOutlined  style={{color:"#8700af"}} />} style={{color:"#8700af"}} title="mask detection">
+            <Menu.Item key="9"><Link to ="/upload" style={{color:"#8700af"}}>upload</Link></Menu.Item>
+            <Menu.Item key="10"><Link to="/camera" style={{color:"#8700af"}}>Camera</Link></Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>

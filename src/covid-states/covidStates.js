@@ -34,7 +34,7 @@ const CovidState = ()=>{
     
     useEffect(()=>{
         Axios.get(api).then(res=>{
-            console.log(res.data)
+            
             let t = 0
             setData(
                 res.data.features.filter(feature=>{
