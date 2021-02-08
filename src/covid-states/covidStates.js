@@ -8,6 +8,7 @@ const CovidState = ()=>{
     const [options, setOptions] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [total, setTotal] = useState(0);
     const [value,setValue]= useState("")
     const onSelect = (data) => {
         setLoading(true)
@@ -34,11 +35,13 @@ const CovidState = ()=>{
     useEffect(()=>{
         Axios.get(api).then(res=>{
             console.log(res.data)
+            let t = 0
             setData(
                 res.data.features.filter(feature=>{
                     if(feature.attributes.NOM.trim()!=="")
                         return feature
                 }).map(feature=>{
+                    t+= feature.attributes.cas_confir;
                     return {
                         city:feature.attributes.NOM,
                         cases : feature.attributes.cas_confir
@@ -46,6 +49,7 @@ const CovidState = ()=>{
                 })
             )
             setLoading(false)
+            setTotal(t)
             
         }).catch(err=>{
             console.log(err)
@@ -90,7 +94,8 @@ const CovidState = ()=>{
             {
                 loading?<center><Spin size="large" /></center>:
                 <Row>
-                    <Descriptions column={1} title="Covid states in Morocco" bordered>
+                    
+                    <Descriptions column={4} title={`Covid states in Morocco : total cases : ${total} case`} bordered>
                         {
                             data.map(feature =>{
                                 return(
@@ -99,6 +104,8 @@ const CovidState = ()=>{
                             })
                         }
                     </Descriptions>
+                    
+                    
 
                 </Row>
             }

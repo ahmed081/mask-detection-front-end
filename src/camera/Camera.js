@@ -7,8 +7,8 @@ import { Button, Col, Image, Row } from "antd";
 
 
 const videoConstraints = {
-    width: 1200,
-    height: 1270,
+    width: 400,
+    height: 500,
     facingMode: "user"
   };
 function dataURLtoFile(dataurl, filename) {
@@ -26,22 +26,22 @@ function dataURLtoFile(dataurl, filename) {
     
     const capture = React.useCallback(
       () => {
-            const imageSrc = webcamRef.current.getScreenshot();
+            const imageSrc = webcamRef.current.getScreenshot();//base64
             console.log(imageSrc)
             
             
             //Usage example:
-            var file = dataURLtoFile(imageSrc, 'a.png');
+            let file = dataURLtoFile(imageSrc, 'a.png');
             const data = new FormData() 
             data.append('file', file)
             Axios.post("http://127.0.0.1:8000/predict/image",data,{
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     }
-            }).then(resp=>{
-                console.log(resp.data)
-                //setImage([resp.data,...image])
-                setImage([...image,resp.data])
+            }).then(resp=>{//200
+                
+                setImage([resp.data,...image])
+                //setImage([...image,resp.data])
             }).catch(err=>{
                 console.log(err)
             })
@@ -61,12 +61,12 @@ function dataURLtoFile(dataurl, filename) {
                     </center>
                 </div>
                 <Webcam
-                audio={false}
-                height={400}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width={400}
-                videoConstraints={videoConstraints}
+                    audio={false}
+                    height={400}
+                    ref={webcamRef}
+                    screenshotFormat="image/jpeg"
+                    width={400}
+                    videoConstraints={videoConstraints}
                 /><br/>
                 <center>
                     <Button onClick={capture}>Capture photo</Button>
