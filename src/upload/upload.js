@@ -1,6 +1,6 @@
 
 import 'antd/dist/antd.css';
-import {Row,Col,Upload, message} from "antd"
+import {Row,Col,Upload, message, Image} from "antd"
 import { InboxOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 
@@ -8,7 +8,7 @@ import { useState } from 'react';
 const { Dragger } = Upload;
 function UploadImage() {
 
-  const [image,setImage]= useState()
+  const [image,setImage]= useState([])
   const props = {
     name: 'file',
     multiple: true,
@@ -23,7 +23,7 @@ function UploadImage() {
       if (status === 'done') {
         console.log(".......................................")
         //console.log(info.file.response)
-        setImage(info.file.response)
+        setImage([info.file.response,...image])
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         
@@ -35,8 +35,15 @@ function UploadImage() {
     <div>
         
         <Row>
-          <Col offset={4} span={8}>
-              <Dragger style={{height:80}} {...props}>
+          <Col offset={1} span={6}>
+                <div>
+                    <center>
+                        <h1>
+                            Upload image
+                        </h1>
+                    </center>
+                </div>
+              <Dragger style={{height:"0%"}} {...props}>
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />
                 </p>
@@ -47,11 +54,28 @@ function UploadImage() {
                 </p>
               </Dragger>
           </Col>
-          <Col span={8}>
-            
-              {
-                image?<img src={`data:image/jpg;base64,${image}`} />:""
-              }
+          <Col offset={2} span={15}>
+            <div>
+                <center>
+                    <h1>
+                        Results
+                    </h1>
+                </center>
+            </div>
+              <Row>
+                    {
+                        image.length >0 ?image.map(img =>{
+                            return (
+                                <Col>
+                                    <Image
+                                        width={200}
+                                        src={`data:image/jpg;base64,${img}`}
+                                        />
+                                </Col>
+                            )
+                        }):""
+                    }
+              </Row>
               
           </Col>
           

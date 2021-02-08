@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Webcam from "react-webcam";
 import Axios from "axios";
 import image from "./WIN_20201201_16_55_55_Pro.jpg";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Image, Row } from "antd";
 
 
 const videoConstraints = {
@@ -21,7 +21,8 @@ function dataURLtoFile(dataurl, filename) {
 } 
   const WebcamCapture = () => {
     const webcamRef = React.useRef(null);
-    const [image,setImage]= useState()
+    const [image,setImage]= useState([])
+    const [loading,setLoading]= useState(true)
     
     const capture = React.useCallback(
       () => {
@@ -39,7 +40,8 @@ function dataURLtoFile(dataurl, filename) {
                     }
             }).then(resp=>{
                 console.log(resp.data)
-                setImage(resp.data)
+                //setImage([resp.data,...image])
+                setImage([...image,resp.data])
             }).catch(err=>{
                 console.log(err)
             })
@@ -50,7 +52,14 @@ function dataURLtoFile(dataurl, filename) {
     return (
       <>
        <Row>
-           <Col offset={2} span={7}>
+           <Col offset={1} span={9}>
+                <div>
+                    <center>
+                        <h1>
+                            Take a picture
+                        </h1>
+                    </center>
+                </div>
                 <Webcam
                 audio={false}
                 height={400}
@@ -63,11 +72,28 @@ function dataURLtoFile(dataurl, filename) {
                     <Button onClick={capture}>Capture photo</Button>
                 </center>
            </Col>
-           <Col span={8}>
-            
-              {
-                image?<img src={`data:image/jpg;base64,${image}`} />:""
-              }
+           <Col offset={1} span={13}>
+                <div>
+                    <center>
+                        <h1>
+                            Results
+                        </h1>
+                    </center>
+                </div>
+                <Row>
+                    {
+                        image.length >0 ?image.map(img =>{
+                            return (
+                                <Col>
+                                    <Image
+                                        width={200}
+                                        src={`data:image/jpg;base64,${img}`}
+                                        />
+                                </Col>
+                            )
+                        }):""
+                    }
+                </Row>
               
             </Col>
        </Row>
